@@ -3,5 +3,5 @@ import { supabase } from '../utils/supaBaseClient';
 
 export const getVenues = async (req: Request, res: Response) => {
   const { data } = await supabase.from('venues').select('*');
-  res.json({ data });
+  res.json(data);
 };
