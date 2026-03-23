@@ -7,3 +7,4 @@ export function getLocation(): Promise<GeolocationPosition> {
     }
   });
 }
+

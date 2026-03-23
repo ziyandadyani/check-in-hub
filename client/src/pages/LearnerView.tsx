@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getVenues, clockIn } from '../services/api';
 import { getLocation } from '../hooks/useGeolocation';
 import type { Venue } from '@shared/types';
+import './LearnerView.css';
 
 export default function LearnerView() {
   const [venues, setVenues] = useState<Venue[]>([]);
@@ -40,72 +41,53 @@ export default function LearnerView() {
     }
   };
 
-  return (
-    <div
-      style={{
-        padding: '1rem',
-        maxWidth: '500px',
-        margin: '0 auto',
-        fontFamily: 'Arial, sans-serif',
-      }}
-    >
-      <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Clock In</h2>
+  const getMessageStyles = () => {
+    if (message.toLowerCase().includes("outside allowed radius")) {
+      return "bg-red-100 text-red-700 border border-red-200";
+    }
 
-      <label htmlFor="venue" style={{ display: 'block', marginBottom: '0.5rem' }}>
-        Select Venue
-      </label>
-      <select
-        id="venue"
-        style={{
-          width: '100%',
-          padding: '0.5rem',
-          fontSize: '1rem',
-          marginBottom: '1rem',
-        }}
-        value={selectedVenue}
-        onChange={(e) => setSelectedVenue(e.target.value)}
-      >
-        <option value="">Choose a venue</option>
-        {venues.map((venue) => (
-          <option key={venue.id} value={venue.id}>
-            {venue.name}
-          </option>
-        ))}
-      </select>
+    if (message.toLowerCase().includes("clock-in successful")) {
+      return "bg-green-100 text-green-700 border border-green-200";
+    }
+
+    if (message.toLowerCase().includes("getting location")) {
+      return "bg-purple-100 text-purple-700 border border-purple-200";
+    }
+
+    return "bg-gray-100 text-gray-700";
+  };
+
+  return (
+    <div className="learner-container">
+
+      <h1 className="text-2xl font-bold pb-4">  Welcome, User</h1>
+
+      <h2 className="text-base font-medium text-gray-500 pb-4">Select a venue below to clock in for todays session</h2>
+
+      <div className="venue-list">
+        {venues.map((venue) => {
+          const isSelected = selectedVenue === venue.id;
+          return (
+            <button
+              key={venue.id}
+              className={`venue-button ${isSelected ? 'selected' : ''}`}
+              onClick={() => setSelectedVenue(venue.id)}
+            >
+              {venue.name}
+            </button>
+          );
+        })}
+      </div>
 
       <button
+        className="clock-in-button"
         onClick={handleClockIn}
         disabled={!selectedVenue || loading}
-        style={{
-          width: '100%',
-          padding: '0.75rem',
-          fontSize: '1rem',
-          backgroundColor: '#4f46e5',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '0.5rem',
-          cursor: 'pointer',
-          marginBottom: '1rem',
-        }}
       >
-        {loading ? 'Clocking in...' : 'Clock In'}
+        {loading ? 'Clocking in...' : 'Check In'}
       </button>
 
-      {message && (
-        <p
-          style={{
-            textAlign: 'center',
-            padding: '0.5rem',
-            borderRadius: '0.25rem',
-            backgroundColor: '#f3f4f6',
-            color: '#111827',
-          }}
-        >
-          {message}
-        </p>
-      )}
+      {message && <p className={`mt-4 h-[130px] flex items-center justify-center text-center p-3 rounded-md text-sm font-medium ${getMessageStyles()}`}>{message}</p>}
     </div>
   );
 }
-
-
