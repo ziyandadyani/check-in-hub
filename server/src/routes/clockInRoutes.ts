@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post('/clock-in', clockIn);
 
-console.log('clockIn type:', typeof clockIn);
+// console.log('clockIn type:', typeof clockIn); ""
 
 export default router;
