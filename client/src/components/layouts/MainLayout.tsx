@@ -5,7 +5,9 @@ const MainLayout = () => {
   return (
     <>
       <Nav></Nav>
-      <div style={{ backgroundColor: "#F9FAFB", minHeight: "91vh" }}> <Outlet /></div>
+      <div style={{ backgroundColor: "#F9FAFB", minHeight: "91vh" }}>
+
+        <Outlet /></div>
 
     </>
   )

@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { getVenues, clockIn } from '../services/api';
 import { getLocation } from '../hooks/useGeolocation';
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { getCurrentUser } from '../services/auth';
-import type { Venue, User } from '@shared/types';
+import type { Venue } from '@shared/types';
 import './LearnerView.css';
 
 export default function LearnerView() {
@@ -11,24 +10,18 @@ export default function LearnerView() {
   const [selectedVenue, setSelectedVenue] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<User | null>(null); // <-- state for logged-in user
 
   useEffect(() => {
-    const fetchUserAndVenues = async () => {
+    const fetchVenues = async () => {
       try {
-        // Get logged-in user
-        const currentUser = await getCurrentUser();
-        setUser(currentUser);
-
-        // Fetch venues
         const res = await getVenues();
         setVenues(res.data.data); // <- notice res.data.data
         console.log('Fetched venues:', res.data.data);
       } catch (err) {
-        console.error('Failed to fetch user or venues:', err);
+        console.error('Failed to fetch venues:', err);
       }
     };
-    fetchUserAndVenues();
+    fetchVenues();
   }, []);
 
   const handleClockIn = async () => {
@@ -73,14 +66,10 @@ export default function LearnerView() {
   return (
     <div className="learner-container">
 
-      {/* Display logged-in user name */}
-      <h1 className="text-2xl font-bold pb-4">
-        Welcome, {user ? user.name : 'User'}
-      </h1>
+      <h1 className="text-2xl font-bold pb-4">  Welcome, User</h1>
 
-      <h2 className="text-base font-medium text-gray-500 pb-4">
-        Select a venue below to clock in for today's session
-      </h2>
+      <h2 className="text-base font-medium text-gray-500 pb-4">Select a venue below to clock in for todays session</h2>
+
 
       <div className="venue-list">
         {venues.map((venue) => {
@@ -91,12 +80,18 @@ export default function LearnerView() {
               className={`venue-button flex flex-col items-start ${isSelected ? 'selected' : ''}`}
               onClick={() => setSelectedVenue(venue.id)}
             >
+              {/* Icon and name container */}
               <div className="flex items-center">
-                <div className="bg-[#27aa83] p-2 rounded-lg">
+                {/* Icon */}
+                <div className="bg-[#27aa83] p-2 rounded-lg ">
                   <FaMapMarkerAlt className="text-white text-sm" />
                 </div>
-                <span className="ml-2">{venue.name}</span>
+
+
+                <span className="ml-2 ">{venue.name}</span>
               </div>
+
+
               {venue.address && (
                 <span className="ml-10 text-gray-500 text-sm">{venue.address}</span>
               )}
@@ -104,6 +99,8 @@ export default function LearnerView() {
           );
         })}
       </div>
+
+
 
       <button
         className="clock-in-button"
@@ -113,11 +110,7 @@ export default function LearnerView() {
         {loading ? 'Clocking in...' : 'Check In'}
       </button>
 
-      {message && (
-        <p className={`mt-4 h-[130px] flex items-center justify-center text-center p-3 rounded-md text-sm font-medium ${getMessageStyles()}`}>
-          {message}
-        </p>
-      )}
+      {message && <p className={`mt-4 h-[130px] flex items-center justify-center text-center p-3 rounded-md text-sm font-medium ${getMessageStyles()}`}>{message}</p>}
     </div>
   );
 }
