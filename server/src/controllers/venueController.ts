@@ -4,7 +4,7 @@ import type { Venue } from '@shared/types';
 
 export const getVenues = async (req: Request, res: Response) => {
   try {
-    // Select only the columns we need
+
     const { data, error } = await supabase
       .from('venues')
       .select('id, name, latitude, longitude, radius, address');
@@ -13,14 +13,14 @@ export const getVenues = async (req: Request, res: Response) => {
       return res.status(500).json({ message: error.message });
     }
 
-    // Map data to match your TS type if needed
+
     const formattedData: Venue[] = (data || []).map((venue) => ({
       id: venue.id,
       name: venue.name,
       latitude: venue.latitude,
       longitude: venue.longitude,
-      radius: venue.radius,       // already exists
-      address: venue.address || '', // fallback to empty string if null
+      radius: venue.radius,
+      address: venue.address || '',
     }));
 
     res.json({ data: formattedData });

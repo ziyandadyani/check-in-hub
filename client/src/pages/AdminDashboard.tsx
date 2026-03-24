@@ -16,7 +16,7 @@ export const AdminDashboard: React.FC = () => {
         const res = await getClockIns(selectedVenue ? { venueId: selectedVenue } : {});
         setClockIns(res.data.data || []);
         const uniqueVenues = Array.from(
-          new Set(res.data.data.map((ci: ClockInRecord) => ci.venues?.name))
+          new Set(res.data.data.map((ci: ClockInRecord) => ci.venue?.name))
         ) as string[];
         setVenues(uniqueVenues);
       } catch (err) {
@@ -44,10 +44,10 @@ export const AdminDashboard: React.FC = () => {
       <div className="stats-container">
         <div className="stat-card">Total Clock-ins: {clockIns.length}</div>
         <div className="stat-card">
-          Total Learners: {Array.from(new Set(clockIns.map(ci => ci.users?.name))).length}
+          Total Learners: {Array.from(new Set(clockIns.map(ci => ci.user?.name))).length}
         </div>
         <div className="stat-card">
-          Total Venues: {Array.from(new Set(clockIns.map(ci => ci.venues?.name))).length}
+          Total Venues: {Array.from(new Set(clockIns.map(ci => ci.venue?.name))).length}
         </div>
       </div>
 
@@ -81,8 +81,8 @@ export const AdminDashboard: React.FC = () => {
           <tbody>
             {clockIns.map(ci => (
               <tr key={ci.id}>
-                <td>{ci.users?.name || 'N/A'}</td>
-                <td>{ci.venues?.name || 'N/A'}</td>
+                <td>{ci.user?.name || 'N/A'}</td>
+                <td>{ci.venue?.name || 'N/A'}</td>
                 <td>{new Date(ci.created_at).toLocaleString()}</td>
                 <td>{ci.distance ?? '—'}</td>
               </tr>
