@@ -1,6 +1,14 @@
 import logo from '../assets/image_1_1774189292507-removebg-preview.png'
+import { useNavigate } from 'react-router-dom'
 
 const Nav = () => {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate('/login')
+  }
+
   return (
     <>
 
@@ -16,14 +24,14 @@ const Nav = () => {
           <div className="flex items-center gap-3">
             <span className="text-xs text-muted-foreground hidden sm:block">
               {/* {user?.name} */}
-              User Name
+              {/* User Name */}
             </span>
             <button
-              // onClick={logout}
-              className="p-2 rounded-lg hover:bg-muted transition-colors active:scale-95"
+              onClick={handleLogout}
+              className="p-2  flex flex-direction-row rounded-lg hover:bg-muted transition-colors active:scale-95"
               title="Sign out"
-            >
-              Logout
+            > <span className="pr-2">LogOut</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="#747474" d="M5 3h6a3 3 0 0 1 3 3v4h-1V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-4h1v4a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3m3 9h11.25L16 8.75l.66-.75l4.5 4.5l-4.5 4.5l-.66-.75L19.25 13H8z"></path></svg>
               {/* <LogOut className="w-4 h-4 text-muted-foreground" /> */}
             </button>
           </div>

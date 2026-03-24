@@ -18,6 +18,18 @@
   background: var(--background);
 }
 
+/* Loading text */
+.loading-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10em;
+  height: 200px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #6c63ff;
+}
+
 /* Header */
 .admin-header {
   text-align: center;
