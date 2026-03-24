@@ -5,10 +5,6 @@ import venueRoutes from './routes/venueRoutes';
 import adminRoutes from './routes/adminRoutes';
 
 
-
-
-
-
 const app = express();
 
 app.use(cors());
