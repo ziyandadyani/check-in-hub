@@ -10,6 +10,7 @@ export type ClockInRecord = {
   created_at: string;
   users: { name: string };
   venues: { name: string };
+  distance?: number;
 };
 
 const API = axios.create({
