@@ -13,6 +13,7 @@ export type Venue = {
   latitude: number;
   longitude: number;
   radius: number;
+  address: string;  // <-- added this
 };
 
 export type ClockInRequest = {
