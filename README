@@ -1,0 +1,209 @@
+# 📍 Check-IN Hub (Geo Clock-In)
+
+A location-based attendance tracking system that allows users to securely **clock in and out** using geolocation and authentication.
+
+---
+
+## 🚀 Live Demo
+
+* 🌐 Frontend: https://your-frontend.onrender.com
+* 🔗 Backend API: https://your-backend.onrender.com
+
+---
+
+## 📌 Overview
+
+Check-IN Hub is a full-stack web application designed to help organizations track user attendance based on **real-time location**.
+
+Users can:
+
+* ✅ Sign in securely
+* 📍 Clock in using their current location
+* 📊 View attendance records
+
+Admins can:
+
+* 👀 View all user clock-ins
+* 📈 Monitor attendance data
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* React (Vite)
+* TypeScript / JavaScript
+* CSS
+
+### Backend
+
+* Node.js
+* Express.js
+
+### Authentication & Database
+
+* Supabase (Auth + Database)
+
+### Deployment
+
+* Render (Frontend + Backend)
+
+---
+
+## 🔐 Authentication
+
+Authentication is handled via **Supabase Auth**:
+
+* Email & password login
+* Session-based authentication
+* Protected clock-in functionality
+
+---
+
+## 📍 Features
+
+* 🌍 Geolocation-based clock-in
+* 🔐 User authentication (Supabase)
+✅ Role-based access (Admin vs User)
+* ⏱️ Timestamped attendance records
+📱 Mobile responsiveness improvements
+* 📡 REST API integration
+* 📊 Admin dashboard (view all clock-ins)
+* ⚡ Auto-deploy via GitHub + Render
+
+---
+
+## 🧪 Test Users
+
+Use the following credentials to test the app:
+
+### 👤 Standard User
+
+* Email: [testr@example.com]
+* Password: 12345
+
+### 👨‍💼 Admin User
+
+* Email: [admin@example.com]
+* Password: 12345
+
+> ⚠️ Note: These are demo accounts. Do not use real personal credentials.
+
+---
+
+## ⚙️ Environment Variables
+
+### Frontend (`client/.env`)
+
+```env
+VITE_API_URL=https://your-backend.onrender.com
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_anon_key
+```
+
+---
+
+### Backend (`server/.env`)
+
+```env
+SUPABASE_URL=your_supabase_url
+SUPABASE_ANON_KEY=your_anon_key
+PORT=3000
+```
+
+---
+
+## 📦 Installation & Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/geo-clock-in.git
+cd geo-clock-in
+```
+
+---
+
+### 2. Setup Frontend
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+---
+
+### 3. Setup Backend
+
+```bash
+cd server
+npm install
+npm run dev
+```
+
+---
+
+## 🔗 API Endpoints
+
+### Clock-In
+
+```http
+POST /api/clock-ins
+```
+
+### Get All Clock-Ins
+
+```http
+GET /api/clock-ins
+```
+
+---
+
+## 🌐 Deployment
+
+The app is deployed using **Render**:
+
+* Frontend → Static Site
+* Backend → Web Service
+
+Auto-deploy is enabled via GitHub.
+
+---
+
+## ⚠️ Known Limitations
+
+* Free-tier backend  (Render deployment service) may experience cold starts
+* Geolocation accuracy depends on user device/browser
+
+---
+
+## 📈 Future Improvements
+
+* 
+* 📍 Geofencing (restrict clock-in locations)
+* 📊 Advanced analytics dashboard
+* 🔔 Notifications for clock-in status
+
+---
+
+## 👩‍💻 Author
+
+**Ziyanda Dyani**
+Junior Software Developer
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 💡 Acknowledgements
+
+* Supabase for backend services
+* Render for deployment
+* Open-source community
+
