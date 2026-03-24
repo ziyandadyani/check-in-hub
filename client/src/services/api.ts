@@ -13,3 +13,10 @@ export const clockIn = (data: {
   latitude: number;
   longitude: number;
 }) => API.post('/clock-in', data);
+
+//GET clock-ins 
+export const getClockIns = (venueId?: string) => {
+  return API.get('/admin/clock-ins', {
+    params: venueId ? { venueId } : {}
+  });
+};

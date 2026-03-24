@@ -1,4 +1,4 @@
-import './App.css'
+import './App.css';
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -7,16 +7,21 @@ import {
 } from 'react-router-dom';
 
 import MainLayout from './components/layouts/MainLayout';
-//import Home from './pages/Home';
 import LearnerView from './pages/LearnerView';
+import { AdminDashboard } from './pages/AdminDashboard';
+//import LoginPage from './pages/LoginPage';
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
-        {/* <Route index element={<Home />} /> */}
-        <Route index element={<LearnerView />} />
+        {/* Default index route */}
+        {/* <Route index element={<LoginPage />} /> */}
+
+        {/* Other routes */}
+        {/* <Route index element={<LoginPage />} /> */}
         <Route path="learner" element={<LearnerView />} />
+        <Route path="admin" element={<AdminDashboard />} />
       </Route>
     )
   );
