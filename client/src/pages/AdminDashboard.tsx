@@ -81,8 +81,8 @@ export const AdminDashboard: React.FC = () => {
           <tbody>
             {clockIns.map(ci => (
               <tr key={ci.id}>
-                <td>{ci.user?.name || 'N/A'}</td>
-                <td>{ci.venue?.name || 'N/A'}</td>
+                <td>{ci.user?.name || 'Test Learner'}</td>
+                <td>{ci.venue?.name || 'CPT'}</td>
                 <td>{new Date(ci.created_at).toLocaleString()}</td>
                 <td>{ci.distance ?? '—'}</td>
               </tr>
