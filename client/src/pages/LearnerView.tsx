@@ -3,14 +3,18 @@ import { getVenues, clockIn } from '../services/api';
 import { getLocation } from '../hooks/useGeolocation';
 import { FaMapMarkerAlt } from "react-icons/fa";
 import type { Venue } from '@shared/types';
+import { supabase } from '../utils/supabaseClient';
 import './LearnerView.css';
 
 export default function LearnerView() {
   const [venues, setVenues] = useState<Venue[]>([]);
   const [selectedVenue, setSelectedVenue] = useState('');
+  const [currentUser, setCurrentUser] = useState<{ id: string; email: string } | null>(null);
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(true); // new: tracks user fetch
 
+  // Fetch venues
   useEffect(() => {
     const fetchVenues = async () => {
       try {
@@ -24,8 +28,33 @@ export default function LearnerView() {
     fetchVenues();
   }, []);
 
-  console.log("API URL:", import.meta.env.VITE_API_URL);
+  // Fetch current user
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await supabase.auth.getUser();
+        if (res.data.user) {
+          setCurrentUser({ id: res.data.user.id, email: res.data.user.email! });
+        }
+      } catch (err) {
+        console.error('Failed to get user:', err);
+      } finally {
+        setUserLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
 
+  // Show loader while user is being fetched
+  if (userLoading) {
+    return <p className="loading-text">Loading user info...</p>;
+  }
+
+  if (!currentUser) {
+    return <p className="loading-text">User not logged in</p>;
+  }
+
+  // Clock-in handler
   const handleClockIn = async () => {
     if (!selectedVenue) return;
 
@@ -34,16 +63,22 @@ export default function LearnerView() {
 
     try {
       const position = await getLocation();
+      console.log("Selected Venue:", selectedVenue);
+      console.log("Coords:", position.coords);
 
       const res = await clockIn({
         venueId: selectedVenue,
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
+        latitude: Number(position.coords.latitude),
+        longitude: Number(position.coords.longitude),
+        userId: currentUser.id,
       });
 
-      setMessage(res.data.message);
+      console.log("Clock-in response:", res);
+
+      setMessage(res.data?.message || 'Clock-in successful');
     } catch (err: any) {
-      setMessage(err.response?.data?.message || 'Error');
+      console.error('Clock-in error:', err.response || err);
+      setMessage(err.response?.data?.message || 'Error clocking in');
     } finally {
       setLoading(false);
     }
@@ -53,25 +88,23 @@ export default function LearnerView() {
     if (message.toLowerCase().includes("outside allowed radius")) {
       return "bg-red-100 text-red-700 border border-red-200";
     }
-
     if (message.toLowerCase().includes("clock-in successful")) {
       return "bg-green-100 text-green-700 border border-green-200";
     }
-
     if (message.toLowerCase().includes("getting location")) {
       return "bg-purple-100 text-purple-700 border border-purple-200";
     }
-
     return "bg-gray-100 text-gray-700";
   };
 
   return (
     <div className="learner-container">
 
-      <h1 className="text-2xl font-bold pb-4">  Welcome, User</h1>
+      <h1 className="text-xl font-bold pb-4">Welcome, {currentUser.email}</h1>
 
-      <h2 className="text-base font-medium text-gray-500 pb-4">Select a venue below to clock in for todays session</h2>
-
+      <h2 className="text-base font-medium text-gray-500 pb-4">
+        Select a venue below to clock in for today's session
+      </h2>
 
       <div className="venue-list">
         {venues.map((venue) => {
@@ -82,18 +115,12 @@ export default function LearnerView() {
               className={`venue-button flex flex-col items-start ${isSelected ? 'selected' : ''}`}
               onClick={() => setSelectedVenue(venue.id)}
             >
-              {/* Icon and name container */}
               <div className="flex items-center">
-                {/* Icon */}
                 <div className="bg-[#27aa83] p-2 rounded-lg ">
                   <FaMapMarkerAlt className="text-white text-sm" />
                 </div>
-
-
-                <span className="ml-2 ">{venue.name}</span>
+                <span className="ml-2">{venue.name}</span>
               </div>
-
-
               {venue.address && (
                 <span className="ml-10 text-gray-500 text-sm">{venue.address}</span>
               )}
@@ -101,8 +128,6 @@ export default function LearnerView() {
           );
         })}
       </div>
-
-
 
       <button
         className="clock-in-button"
@@ -112,7 +137,13 @@ export default function LearnerView() {
         {loading ? 'Clocking in...' : 'Check In'}
       </button>
 
-      {message && <p className={`mt-4 h-[130px] flex items-center justify-center text-center p-3 rounded-md text-sm font-medium ${getMessageStyles()}`}>{message}</p>}
+      {message && (
+        <p
+          className={`mt-4 h-[130px] flex items-center justify-center text-center p-3 rounded-md text-sm font-medium ${getMessageStyles()}`}
+        >
+          {message}
+        </p>
+      )}
     </div>
   );
 }

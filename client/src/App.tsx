@@ -16,13 +16,12 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
+
+        {/* Default index route */}
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/" element={<MainLayout />}>
-          {/* Default index route */}
-
 
           {/* Other routes */}
-
           <Route path="learner" element={<LearnerView />} />
           <Route path="admin" element={<AdminDashboard />} />
         </Route>

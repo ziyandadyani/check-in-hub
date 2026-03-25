@@ -36,6 +36,7 @@ export const clockIn = (data: {
   venueId: string;
   latitude: number;
   longitude: number;
+  userId: string;
 }) => API.post('/clock-in', data);
 
 // GET clock-ins 
