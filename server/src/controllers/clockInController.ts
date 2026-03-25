@@ -11,12 +11,10 @@ export const clockIn = async (
   try {
     const { venueId, latitude, longitude, userId } = req.body;
 
-    // 1️⃣ Validate required fields
     if (!userId || !venueId || latitude === undefined || longitude === undefined) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    // 2️⃣ Check venue exists
     const { data: venueData, error: venueError } = await supabase
       .from('venues')
       .select('*')
@@ -29,7 +27,6 @@ export const clockIn = async (
 
     const venue = venueData as Venue;
 
-    // 3️⃣ Check user is within allowed radius
     const valid = isWithinRadius(
       latitude,
       longitude,
