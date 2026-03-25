@@ -14,7 +14,7 @@ export const getClockIns = async (req: Request, res: Response) => {
         distance,
         created_at,
         users (name),
-        venues (name)s
+        venues (name)
       `);
 
     if (venueId) {
