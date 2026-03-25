@@ -15,7 +15,7 @@ export default function LearnerView() {
     const fetchVenues = async () => {
       try {
         const res = await getVenues();
-        setVenues(res.data.data); // <- notice res.data.data
+        setVenues(res.data.data);
         console.log('Fetched venues:', res.data.data);
       } catch (err) {
         console.error('Failed to fetch venues:', err);
@@ -23,6 +23,8 @@ export default function LearnerView() {
     };
     fetchVenues();
   }, []);
+
+  console.log("API URL:", import.meta.env.VITE_API_URL);
 
   const handleClockIn = async () => {
     if (!selectedVenue) return;
