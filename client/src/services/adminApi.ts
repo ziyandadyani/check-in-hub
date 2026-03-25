@@ -4,8 +4,8 @@ import axios from 'axios';
 
 export type ClockInRecord = {
   id: string;
-  user?: { name: string };
-  venue?: { name: string };
+  user: { name: string };
+  venue: { name: string };
   latitude: number;
   longitude: number;
   created_at: string;
