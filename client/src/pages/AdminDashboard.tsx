@@ -14,7 +14,7 @@ export const AdminDashboard: React.FC = () => {
       setLoading(true);
       try {
         const res = await getClockIns(selectedVenue ? { venueId: selectedVenue } : {});
-        setClockIns(res.data.data || []);
+        setClockIns(res || []);
         const uniqueVenues = Array.from(
           new Set(res.data.data.map((ci: ClockInRecord) => ci.venue?.name))
         ) as string[];

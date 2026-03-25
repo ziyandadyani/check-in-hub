@@ -1,18 +1,18 @@
 
 import axios from 'axios';
-import type { User, Venue } from '@shared/types';
+//import type { User, Venue } from '@shared/types';
 
 export type ClockInRecord = {
   id: string;
-  user: User;
-  venue: Venue;
+  user?: { name: string };
+  venue?: { name: string };
   latitude: number;
   longitude: number;
   created_at: string;
   distance?: number;
 };
 
-// Use Vite env variable for deployed backend
+//Vite env variable for deployed backend
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL + '/api',
 });
@@ -21,19 +21,19 @@ const API = axios.create({
 export const getClockIns = async (params?: { venueId?: string }) => {
   try {
     const res = await API.get('/admin/clock-ins', { params });
-    return res.data.data; // <-- important: access data.data
+    return res.data.data;
   } catch (error) {
     console.error('Failed to fetch clock-ins', error);
     return [];
   }
 };
 
-// Example POST clock-in
+// POST clock-in
 export const clockIn = async (data: {
   venueId: string;
   latitude: number;
   longitude: number;
-  userId: string;
+  userId: string; // added this
 }) => {
   try {
     const res = await API.post('/clock-in', data);
