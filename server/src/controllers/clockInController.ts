@@ -9,28 +9,27 @@ export const clockIn = async (
   res: Response<ClockInResponse>
 ) => {
   try {
-    // const userId = '11111111-1111-1111-1111-111111111111';
-
     const { venueId, latitude, longitude, userId } = req.body;
 
-    if (!userId) {
-      return res.status(400).json({ message: 'Missing userId' });
+    // 1️⃣ Validate required fields
+    if (!userId || !venueId || latitude === undefined || longitude === undefined) {
+      return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    const { data, error } = await supabase
+    // 2️⃣ Check venue exists
+    const { data: venueData, error: venueError } = await supabase
       .from('venues')
       .select('*')
       .eq('id', venueId)
       .single();
 
-    if (error || !data) {
-      return res.status(404).json({ message: 'Venue not found' });
+    if (venueError || !venueData) {
+      return res.status(404).json({ message: 'Venue not found', error: venueError });
     }
 
-    const venue = data as Venue;
+    const venue = venueData as Venue;
 
-    //is user within allowed radius
-
+    // 3️⃣ Check user is within allowed radius
     const valid = isWithinRadius(
       latitude,
       longitude,
@@ -43,28 +42,40 @@ export const clockIn = async (
       return res.status(400).json({ message: 'Outside allowed radius' });
     }
 
-    // Calculate exact distance using geolib
-
+    // 4️⃣ Calculate exact distance
     const distance = getDistance(
       { latitude, longitude },
       { latitude: venue.latitude, longitude: venue.longitude }
     );
 
-    // Store clock-in
-    await supabase.from('clock_ins').insert([
-      {
-        user_id: userId,
-        venue_id: venueId,
-        latitude,
-        longitude,
-        distance,
-      },
-    ]);
+    // 5️⃣ Insert clock-in and check result
+    const { data: inserted, error: insertError } = await supabase
+      .from('clock_ins')
+      .insert([
+        {
+          user_id: userId,
+          venue_id: venueId,
+          latitude,
+          longitude,
+          distance,
+          created_at: new Date().toISOString(),
+        },
+      ])
+      .select(); // return inserted row
 
-    return res.json({ message: 'Clock-in successful' });
+    if (insertError) {
+      console.error('Clock-in insert error:', insertError);
+      return res.status(500).json({ message: 'Clock-in failed', error: insertError });
+    }
+
+    console.log('Clock-in inserted:', inserted);
+
+    return res.json({
+      message: 'Clock-in successful',
+      clockIn: inserted[0], // send back the inserted record
+    });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Server error' });
+    console.error('Server error during clock-in:', err);
+    return res.status(500).json({ message: 'Server error', error: err });
   }
 };
-
