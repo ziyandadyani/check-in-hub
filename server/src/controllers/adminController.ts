@@ -13,8 +13,8 @@ export const getClockIns = async (req: Request, res: Response) => {
         venue_id,
         distance,
         created_at,
-        users (name),
-        venues (name)
+        user(name),
+        venue(name)
       `);
 
     if (venueId) {
