@@ -30,6 +30,14 @@ export const AdminDashboard: React.FC = () => {
 
   const today = new Date().toLocaleDateString();
 
+  const formatDate = (dateString: string) => {
+    return new Intl.DateTimeFormat('en-ZA', {
+      timeZone: 'Africa/Johannesburg',
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }).format(new Date(dateString));
+  };
+
   if (loading) return <p className="loading-text">Loading clock-ins...</p>;
 
   return (
@@ -83,7 +91,7 @@ export const AdminDashboard: React.FC = () => {
               <tr key={ci.id}>
                 <td>{ci.user?.name || 'Test Learner'}</td>
                 <td>{ci.venue?.name || 'CPT'}</td>
-                <td>{new Date(ci.created_at).toLocaleString()}</td>
+                <td>{formatDate(ci.created_at)}</td>
                 <td>{ci.distance ?? '—'}</td>
               </tr>
             ))}
