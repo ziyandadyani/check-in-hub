@@ -6,14 +6,14 @@ A location-based attendance tracking system that allows users to securely **cloc
 
 ## 🚀 Live Demo
 
-* 🌐 Frontend: https://your-frontend.onrender.com
-* 🔗 Backend API: https://your-backend.onrender.com
+* 🌐 Frontend: https://check-in-hub.onrender.com
+* 🔗 Backend API: https://check-in-hub-backend.onrender.com
 
 ---
 
 ## 📌 Overview
 
-Check-IN Hub is a full-stack web application designed to help organizations track user attendance based on **real-time location**.
+Check-In Hub is a full-stack web application designed to help organizations track user attendance based on **real-time location**.
 
 Users can:
 
@@ -70,7 +70,6 @@ Authentication is handled via **Supabase Auth**:
 📱 Mobile responsiveness improvements
 * 📡 REST API integration
 * 📊 Admin dashboard (view all clock-ins)
-* ⚡ Auto-deploy via GitHub + Render
 
 ---
 
@@ -80,7 +79,7 @@ Use the following credentials to test the app:
 
 ### 👤 Standard User
 
-* Email: [testr@example.com]
+* Email: [test@example.com]
 * Password: 12345
 
 ### 👨‍💼 Admin User
@@ -96,30 +95,21 @@ Use the following credentials to test the app:
 
 ### Frontend (`client/.env`)
 
-```env
-VITE_API_URL=https://your-backend.onrender.com
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_anon_key
-```
-
----
+VITE_SUPABASE_URL=https://srfyciyflbkqshhzvsqz.supabase.co
+VITE_SUPABASE_KEY=sb_publishable__5Ki4slDgBqpo8q30AUnkg_4J9Bda95
+VITE_API_URL=https://check-in-hub-backend.onrender.com
 
 ### Backend (`server/.env`)
 
-```env
-SUPABASE_URL=your_supabase_url
-SUPABASE_ANON_KEY=your_anon_key
-PORT=3000
-```
-
----
+SUPABASE_URL= https://srfyciyflbkqshhzvsqz.supabase.co
+SUPABASE_KEY= sb_publishable__5Ki4slDgBqpo8q30AUnkg_4J9Bda95 
 
 ## 📦 Installation & Setup
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/geo-clock-in.git
+git clone https://github.com/ziyandadyani/check-in-hub.git
 cd geo-clock-in
 ```
 
@@ -168,21 +158,17 @@ The app is deployed using **Render**:
 * Frontend → Static Site
 * Backend → Web Service
 
-Auto-deploy is enabled via GitHub.
-
 ---
 
 ## ⚠️ Known Limitations
 
-* Free-tier backend  (Render deployment service) may experience cold starts
+* Free-tier backend  ( on Render deployment service) may experience cold starts
 * Geolocation accuracy depends on user device/browser
 
 ---
 
 ## 📈 Future Improvements
 
-* 
-* 📍 Geofencing (restrict clock-in locations)
 * 📊 Advanced analytics dashboard
 * 🔔 Notifications for clock-in status
 
@@ -192,6 +178,8 @@ Auto-deploy is enabled via GitHub.
 
 **Ziyanda Dyani**
 Junior Software Developer
+email: ziyandadynai18@gmail.com
+
 
 ---
 
