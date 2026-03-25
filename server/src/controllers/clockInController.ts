@@ -25,7 +25,7 @@ export const clockIn = async (
 
     const venue = data as Venue;
 
-    // ✅ Check if user is within allowed radius
+    //is user within allowed radius
     const valid = isWithinRadius(
       latitude,
       longitude,
@@ -38,13 +38,14 @@ export const clockIn = async (
       return res.status(400).json({ message: 'Outside allowed radius' });
     }
 
-    // ✅ Calculate exact distance using geolib
+    // Calculate exact distance using geolib
+
     const distance = getDistance(
       { latitude, longitude },
       { latitude: venue.latitude, longitude: venue.longitude }
     );
 
-    // ✅ Store clock-in
+    // Store clock-in
     await supabase.from('clock_ins').insert([
       {
         user_id: userId,
