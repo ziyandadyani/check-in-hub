@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { supabase } from '../utils/supaBaseClient';
 import { ClockInRequest, ClockInResponse, Venue } from '@shared/types';
+//import { isWithinRadius } from '../services/geoService';
 import { getDistance } from 'geolib';
 
 export const clockIn = async (
@@ -8,6 +9,8 @@ export const clockIn = async (
   res: Response<ClockInResponse>
 ) => {
   try {
+    // const userId = '11111111-1111-1111-1111-111111111111';
+
     const { venueId, latitude, longitude, userId } = req.body;
 
     if (!userId) {
@@ -26,14 +29,25 @@ export const clockIn = async (
 
     const venue = data as Venue;
 
+    //is user within allowed radius
+    // const valid = isWithinRadius(
+    //   latitude,
+    //   longitude,
+    //   venue.latitude,
+    //   venue.longitude,
+    //   venue.radius
+    // );
+
+    // if (!valid) {
+    //   return res.status(400).json({ message: 'Outside allowed radius' });
+    // }
+
+    // Calculate exact distance using geolib
+
     const distance = getDistance(
       { latitude, longitude },
       { latitude: venue.latitude, longitude: venue.longitude }
     );
-
-    if (distance > venue.radius) {
-      return res.status(400).json({ message: 'Outside allowed radius' });
-    }
 
     // Store clock-in
     await supabase.from('clock_ins').insert([
@@ -52,3 +66,4 @@ export const clockIn = async (
     return res.status(500).json({ message: 'Server error' });
   }
 };
+
