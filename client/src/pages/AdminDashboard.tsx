@@ -46,11 +46,9 @@ export const AdminDashboard: React.FC = () => {
   const today = new Date().toLocaleDateString();
 
   const formatDate = (dateString: string) => {
-    return new Intl.DateTimeFormat('en-ZA', {
-      timeZone: 'Africa/Johannesburg',
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    }).format(new Date(dateString));
+    return new Date(dateString).toLocaleString('en-ZA', {
+      hour12: false,
+    });
   };
 
   if (loading) return <p className="loading-text">Loading clock-ins...</p>;
