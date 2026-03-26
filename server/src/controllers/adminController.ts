@@ -12,7 +12,7 @@ export const getClockIns = async (req: Request, res: Response) => {
     user_id,
     venue_id,
     distance,
-    created_at:created_at_at_timezone,
+    created_at,
     user:profiles(name),
     venue:venues(name)
   `);
