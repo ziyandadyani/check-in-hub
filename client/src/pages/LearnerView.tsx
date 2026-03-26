@@ -78,7 +78,7 @@ export default function LearnerView() {
       setMessage(res.data?.message || 'Clock-in successful');
     } catch (err: any) {
       console.error('Clock-in error:', err.response || err);
-      setMessage(err.response?.data?.message || 'Error clocking in');
+      setMessage('Error clocking in. User must be verified . Try test@example.com ');
     } finally {
       setLoading(false);
     }
@@ -94,7 +94,7 @@ export default function LearnerView() {
     if (message.toLowerCase().includes("getting location")) {
       return "bg-purple-100 text-purple-700 border border-purple-200";
     }
-    return "bg-gray-100 text-gray-700";
+    return "bg-orange-100 text-orange-700 border border-orange-200";
   };
 
   return (
