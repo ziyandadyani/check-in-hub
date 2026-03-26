@@ -78,7 +78,7 @@ export default function LearnerView() {
       setMessage(res.data?.message || 'Clock-in successful');
     } catch (err: any) {
       console.error('Clock-in error:', err.response || err);
-      setMessage('Error clocking in. User must be verified . Try test@example.com ');
+      setMessage('Outside Allowed Radius');
     } finally {
       setLoading(false);
     }
