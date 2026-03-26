@@ -8,15 +8,14 @@ export const getClockIns = async (req: Request, res: Response) => {
     let query = supabase
       .from('clock_ins')
       .select(`
-        id,
-        user_id,
-        venue_id,
-        distance,
-        created_at,
-        users(name),
-        venues(name)
-      `);
-
+    id,
+    user_id,
+    venue_id,
+    distance,
+    created_at,
+    user:users(name),
+    venue:venues(name)
+  `);
     if (venueId) {
       query = query.eq('venue_id', venueId);
     }
