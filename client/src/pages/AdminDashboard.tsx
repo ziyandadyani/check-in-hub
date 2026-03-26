@@ -4,9 +4,15 @@ import { getClockIns } from '../services/adminApi';
 import type { ClockInRecord } from '../services/adminApi';
 
 export const AdminDashboard: React.FC = () => {
+
+  type VenueOption = {
+    id: string;
+    name: string;
+  };
+
   const [clockIns, setClockIns] = useState<ClockInRecord[]>([]);
   const [loading, setLoading] = useState(true);
-  const [venues, setVenues] = useState<string[]>([]);
+  const [venues, setVenues] = useState<VenueOption[]>([]);
   const [selectedVenue, setSelectedVenue] = useState('');
 
   useEffect(() => {
@@ -16,10 +22,18 @@ export const AdminDashboard: React.FC = () => {
         const res = await getClockIns(selectedVenue ? { venueId: selectedVenue } : {});
         console.log('clockIns response:', res);
         setClockIns(res || []);
-        const uniqueVenues = Array.from(
-          new Set(res.map((ci: ClockInRecord) => ci.venue?.name).filter(Boolean))
-        ) as string[];
-        setVenues(uniqueVenues);
+        const uniqueVenuesMap = new Map<string, VenueOption>();
+
+        res.forEach((ci: ClockInRecord) => {
+          if (ci.venue && ci.venue_id) {
+            uniqueVenuesMap.set(ci.venue_id, {
+              id: ci.venue_id,
+              name: ci.venue.name,
+            });
+          }
+        });
+
+        setVenues(Array.from(uniqueVenuesMap.values()));
       } catch (err) {
         console.error(err);
       } finally {
@@ -64,14 +78,15 @@ export const AdminDashboard: React.FC = () => {
       <div className="filter-container">
         <label htmlFor="venueFilter" className="filter-label">Filter by Venue:</label>
         <select
-          id="venueFilter"
           value={selectedVenue}
           onChange={(e) => setSelectedVenue(e.target.value)}
-          className="filter-select"
         >
           <option value="">All Venues</option>
+
           {venues.map(v => (
-            <option key={v} value={v}>{v}</option>
+            <option key={v.id} value={v.id}>
+              {v.name}
+            </option>
           ))}
         </select>
       </div>

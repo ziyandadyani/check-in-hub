@@ -2,10 +2,24 @@
 import axios from 'axios';
 //import type { User, Venue } from '@shared/types';
 
+// export type ClockInRecord = {
+//   id: string;
+//   user: { name: string };
+//   venue: { name: string };
+//   latitude: number;
+//   longitude: number;
+//   created_at: string;
+//   distance?: number;
+// };
+
 export type ClockInRecord = {
   id: string;
+  user_id: string;
+  venue_id: string;
+
   user: { name: string };
   venue: { name: string };
+
   latitude: number;
   longitude: number;
   created_at: string;
