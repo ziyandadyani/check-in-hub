@@ -79,13 +79,22 @@ Use the following credentials to test the app:
 
 ### 👤 Standard User
 
+* User 1
 * Email: [test@example.com]
 * Password: 12345
+* Role : Learner
+
+* User 2
+* Email: [adam@example.com]
+* Password: 12345
+* Role : Learner
 
 ### 👨‍💼 Admin User
 
+* User 3
 * Email: [admin@example.com]
 * Password: 12345
+* Role : Admin
 
 > ⚠️ Note: These are demo accounts. Do not use real personal credentials.
 
